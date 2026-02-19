@@ -1,5 +1,6 @@
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import type { Movie } from "../../types/movie"; // <- тип-only импорт
 
 import SearchBar from "../SearchBar/SearchBar";
 import MovieGrid from "../MovieGrid/MovieGrid";
@@ -8,7 +9,6 @@ import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import MovieModal from "../MovieModal/MovieModal";
 
 import { fetchMovies } from "../../services/movieService";
-import { Movie } from "../../types/movie";
 
 import css from "./App.module.css";
 

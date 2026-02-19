@@ -1,5 +1,6 @@
-import axios, { AxiosResponse } from "axios";
-import { Movie } from "../types/movie";
+import axios from "axios";
+import type { AxiosResponse } from "axios"; // <- тип-only импорт
+import type { Movie } from "../types/movie";
 
 interface MoviesResponse {
   results: Movie[];

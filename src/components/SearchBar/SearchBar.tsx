@@ -1,5 +1,7 @@
-import { useState, FormEvent } from "react";
+import type { FormEvent } from "react"; // <- тип-only импорт
+import { useState } from "react";
 import toast from "react-hot-toast";
+
 import css from "./SearchBar.module.css";
 
 interface SearchBarProps {
