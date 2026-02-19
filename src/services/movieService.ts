@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { AxiosResponse } from "axios"; // <- тип-only импорт
+import type { AxiosResponse } from "axios";
 import type { Movie } from "../types/movie";
 
 interface MoviesResponse {
@@ -11,13 +11,13 @@ export const fetchMovies = async (
 ): Promise<Movie[]> => {
   const token = import.meta.env.VITE_TMDB_TOKEN;
 
-  if (!token) {
+  if (!token)
     throw new Error("TMDB token is missing");
-  }
 
   try {
+    // ✅ Дженерик тип безпосередньо у axios.get
     const response: AxiosResponse<MoviesResponse> =
-      await axios.get(
+      await axios.get<MoviesResponse>(
         "https://api.themoviedb.org/3/search/movie",
         {
           params: { query },

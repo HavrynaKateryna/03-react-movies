@@ -1,7 +1,6 @@
-import type { FormEvent } from "react"; // <- тип-only импорт
-import { useState } from "react";
+import type { FormEvent } from "react";
+import { useRef } from "react";
 import toast from "react-hot-toast";
-
 import css from "./SearchBar.module.css";
 
 interface SearchBarProps {
@@ -11,20 +10,31 @@ interface SearchBarProps {
 export default function SearchBar({
   onSubmit,
 }: SearchBarProps) {
-  const [query, setQuery] = useState("");
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (
+    e: FormEvent<HTMLFormElement>,
+  ) => {
     e.preventDefault();
 
-    if (!query.trim()) {
+    if (!formRef.current) return;
+
+    const formData = new FormData(
+      formRef.current,
+    );
+    const query =
+      formData.get("query")?.toString().trim() ||
+      "";
+
+    if (!query) {
       toast.error(
         "Please enter your search query.",
       );
       return;
     }
 
-    onSubmit(query.trim());
-    setQuery("");
+    onSubmit(query);
+    formRef.current.reset(); // очищає поле після пошуку
   };
 
   return (
@@ -38,17 +48,16 @@ export default function SearchBar({
         >
           Powered by TMDB
         </a>
+
         <form
           className={css.form}
+          ref={formRef}
           onSubmit={handleSubmit}
         >
           <input
             className={css.input}
             type="text"
-            value={query}
-            onChange={(e) =>
-              setQuery(e.target.value)
-            }
+            name="query" // обов'язково для FormData
             placeholder="Search movies..."
             autoComplete="off"
             autoFocus
